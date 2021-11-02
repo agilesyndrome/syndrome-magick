@@ -2,12 +2,15 @@ FROM public.ecr.aws/lambda/nodejs:14 as builder
 
 RUN mkdir -p /opt/extensions \
  && yum install -y \
+    file \
     gcc-c++ \
     gzip \
     jq \
     less \
     libjpeg \
     make \
+    libjpeg-turbo-devel \
+    openjpeg2-devel \
     tar \
     unzip \
     xz \
