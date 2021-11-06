@@ -1,5 +1,9 @@
 FROM public.ecr.aws/lambda/nodejs:14 as builder
 
+# Allow us to purge Docker cache from Git
+ARG BUILD_CACHE
+RUN echo ${BUILD_CACHE} > .build_cache
+
 RUN mkdir -p /opt/extensions \
  && yum upgrade -y \
  && yum install -y \

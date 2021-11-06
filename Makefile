@@ -2,6 +2,7 @@ DOCKER_REPO:=gallery.ecr.aws
 DOCKER_IMAGE:=agilesyndrome/syndrome-magick
 AWS_ACCOUNT_ID:=$(shell aws sts get-caller-identity | jq -r '.Account')
 AWS_REGION:=us-east-2
+BUILD_CACHE=$(shell cat .build_cache)
 
 LIBPNG_VERSION:=1.6.37
 IMAGEMAGICK_VERSION:=7.1.0-13
@@ -13,7 +14,7 @@ GRAPHICSMAGIC_VERSION:=1.3.36
 
 build:
 	aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-	docker build --build-arg CACHE_KEY=Standard -t $(DOCKER_IMAGE) .
+	docker build --build-arg CACHE_KEY=$(BUILD_CACHE) -t $(DOCKER_IMAGE) .
 
 clean:
 	rm -rf ./cache

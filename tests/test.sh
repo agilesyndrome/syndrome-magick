@@ -1,0 +1,1 @@
+jq '.' /tests/test1.json | node index.js

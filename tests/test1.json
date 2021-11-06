@@ -1,0 +1,8 @@
+{
+  "source": "s3://syndrome-photography/media/WYPXTWJ2XL/2021/10/29/IMG_0036.HEIC",
+  "actions": [
+    { "command": "convert", "to": "JPG"},
+    { "command": "thumbnail", "size": 1024},
+    { "command":  "identify"}
+  ]
+}
