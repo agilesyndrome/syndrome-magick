@@ -1,5 +1,7 @@
 DOCKER_REPO:=gallery.ecr.aws
-DOCKER_IMAGE:=agilesyndrome/aws-heic-converter
+DOCKER_IMAGE:=agilesyndrome/syndrome-magick
+AWS_ACCOUNT_ID:=$(shell aws sts get-caller-identity | jq -r '.Account')
+AWS_REGION:=us-east-2
 
 LIBPNG_VERSION:=1.6.37
 IMAGEMAGICK_VERSION:=7.1.0-13
@@ -80,11 +82,23 @@ shell:
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
+		-e IMAGE_SET_FORMAT=JPEG \
 		-v $(PWD)/tests:/tests \
+		-v $(PWD)/src:/var/task \
 		-it --entrypoint bash $(DOCKER_IMAGE)
 
 test:
 	@#curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{}'
 	@curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"source": { "Bucket": "$(S3_BUCKET)", "Key": "$(S3_KEY)"}}'
+
+publish-dev:
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
+	docker tag $(DOCKER_IMAGE) $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(DOCKER_IMAGE):$(shell git rev-parse --abbrev-ref HEAD)
+	docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(DOCKER_IMAGE):$(shell git rev-parse --abbrev-ref HEAD)
+
+publish:
+	aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+	docker tag $(DOCKER_IMAGE) public.ecr.aws/agilesyndrome/syndrome-magick:latest
+	docker push public.ecr.aws/$(DOCKER_IMAGE)
 
 .PHONY: cache

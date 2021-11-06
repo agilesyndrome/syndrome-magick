@@ -1,6 +1,7 @@
 FROM public.ecr.aws/lambda/nodejs:14 as builder
 
 RUN mkdir -p /opt/extensions \
+ && yum upgrade -y \
  && yum install -y \
     file \
     gcc-c++ \
@@ -28,21 +29,46 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 ENV CFLAGS=-I/usr/local/include
 ENV LDFLAGS=-L/usr/local/lib
-ENV PATH=${PATH}:/build/bin
+ENV PATH=${PATH}:${LAMBDA_TASK_ROOT}/bin
 
-COPY src/ /build/
+# LibPng
+RUN cd libpng-* \
+ && ./configure > configure.log \
+ && make \
+ && make install
 
-RUN chmod +x ./bin/*.sh \
- && install-libpng.sh \
- && install-libde265.sh \
- && install-libheif.sh \
- && install-imagemagick.sh
+# Libde256
+RUN cd libde265-* \
+ && ./configure > configure.log \
+ && make \
+ && make install
+
+RUN cd libheif-* \
+ && ./configure > configure.log \
+ && make \
+ && make install
+
+# ImageMagick
+RUN cd ImageMagick-* \
+ && ./configure \
+    --with-jpeg=yes \
+    --with-png=yes \
+    --with-heic=yes > configure.log \
+ && make \
+ && make install
+
+# GraphicsMagick
+RUN cd GraphicsMagick-* \
+ && ./configure \
+ && make \
+ && make install\
+ && make check
 
 #Default ${LAMBDA_TASK_ROOT:-/var/task}
 WORKDIR ${LAMBDA_TASK_ROOT}
 
-COPY package.json ${LAMBDA_TASK_ROOT}
+COPY src/package.json src/package-lock.json ${LAMBDA_TASK_ROOT}
 RUN npm install
 
-COPY *.js ${LAMBDA_TASK_ROOT}
+COPY src/ ${LAMBDA_TASK_ROOT}
 CMD [ "index.handler" ]
