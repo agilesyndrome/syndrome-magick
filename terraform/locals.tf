@@ -4,7 +4,7 @@ locals {
   image_bucket = var.image_bucket
   version = jsondecode(file("../src/package.json")).version
   timeout_seconds = 90
-  lambda_memory_mb = 1024
+  lambda_memory_mb = 1500
 }
 
 # Resource names, based on the values above
