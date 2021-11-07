@@ -3,6 +3,7 @@ DOCKER_IMAGE:=agilesyndrome/syndrome-magick
 AWS_ACCOUNT_ID:=$(shell aws sts get-caller-identity | jq -r '.Account')
 AWS_REGION:=us-east-2
 BUILD_CACHE=$(shell cat .build_cache)
+GIT_SHA:=$(shell git rev-parse HEAD)
 
 LIBPNG_VERSION:=1.6.37
 IMAGEMAGICK_VERSION:=7.1.0-13
@@ -15,6 +16,10 @@ GRAPHICSMAGIC_VERSION:=1.3.36
 build:
 	aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 	docker build --build-arg CACHE_KEY=$(BUILD_CACHE) -t $(DOCKER_IMAGE) .
+
+base:
+	aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+	docker build --build-arg CACHE_KEY=$(BUILD_CACHE) -t $(DOCKER_IMAGE)-base -f Dockerfile.base .
 
 clean:
 	rm -rf ./cache
@@ -91,6 +96,16 @@ shell:
 test:
 	@#curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{}'
 	@curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"source": { "Bucket": "$(S3_BUCKET)", "Key": "$(S3_KEY)"}}'
+
+publish-base-dev:
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
+	docker tag $(DOCKER_IMAGE)-base $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(DOCKER_IMAGE)-base:$(GIT_SHA)
+	docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(DOCKER_IMAGE)-base:$(GIT_SHA)
+
+publish-base:
+	aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+	docker tag $(DOCKER_IMAGE)-base public.ecr.aws/agilesyndrome/syndrome-magick-base:latest
+	docker push public.ecr.aws/$(DOCKER_IMAGE)-base
 
 publish-dev:
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com

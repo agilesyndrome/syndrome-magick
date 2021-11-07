@@ -1,17 +1,19 @@
 {
-  "name": "aws-heic-converter",
-  "version": "1.0.0",
-  "description": "AWS Lambda to convert HEIC images.",
+  "name": "syndrome-magick",
+  "version": "0.0.3",
+  "description": "AWS Docker image for image conversion",
   "main": "index.js",
-  "author": "Vitalii Elenhaupt",
+  "author": "AgileSyndrome",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/veelenga/aws-heic-converter"
+    "url": "https://github.com/agilesyndrome/syndrome-magick"
   },
   "keywords": [
     "aws",
     "lambda",
+    "graphicsmagic",
+    "imagemagick",
     "heic"
   ],
   "dependencies": {

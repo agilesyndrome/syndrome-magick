@@ -7,7 +7,7 @@ const ERROR_403 = {"error": 403};
 
 // milliseconds of time an operation (convert, identify, etc) can take
 
-const OPERATOR_TIMEOUT_MS=20000;
+const OPERATOR_TIMEOUT_MS=30000;
 
 // milliseconds of time we're allowed to save to S3 before timeout
 const SAVE_TIMEOUT_MS=10000;
@@ -226,7 +226,7 @@ function convert(event, s3Data, to) {
                         console.error(`Perhaps ${to} is not a valid conversion type here?`);
                     }
 
-                    reject(err);
+                    return reject(err);
                 }
 
                 console.log("[v] Convert Done");
@@ -313,6 +313,8 @@ function handler(event) {
 
     }).catch(err => {
         console.error("Promise chain has failed us", err);
+        throw(err);
+
     });
 
     return handlerPromise;
