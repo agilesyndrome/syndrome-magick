@@ -7,7 +7,7 @@ const ERROR_403 = {"error": 403};
 
 // milliseconds of time an operation (convert, identify, etc) can take
 
-const OPERATOR_TIMEOUT_MS=30000;
+const OPERATOR_TIMEOUT_MS=60000;
 
 // milliseconds of time we're allowed to save to S3 before timeout
 const SAVE_TIMEOUT_MS=10000;

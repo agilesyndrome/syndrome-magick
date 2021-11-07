@@ -1,6 +1,6 @@
 {
   "name": "syndrome-magick",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "AWS Docker image for image conversion",
   "main": "index.js",
   "author": "AgileSyndrome",
