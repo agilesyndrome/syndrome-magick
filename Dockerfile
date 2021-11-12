@@ -5,3 +5,4 @@ RUN npm install
 
 COPY src/ ${LAMBDA_TASK_ROOT}/
 CMD [ "index.handler" ]
+

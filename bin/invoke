@@ -1,0 +1,5 @@
+SOURCE=${1}
+
+PAYLOAD=$(echo "{\"source\":\"${1}\"}" | base64)
+aws lambda invoke --function-name syndromemagick-production --invocation-type=RequestResponse --payload "${PAYLOAD}" response.json
+cat response.json

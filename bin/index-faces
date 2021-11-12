@@ -1,0 +1,1 @@
+aws rekognition index-faces --collection-id syndrome-photography --image '{"S3Object":{"Bucket": "syndrome-photography","Name":"convert/WYPXTWJ2XL/2021/10/26/IMG_0001.jpg"}}'

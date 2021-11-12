@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/nodejs:14 as builder
+FROM public.ecr.aws/lambda/provided:latest
 
 # Allow us to purge Docker cache from Git
 ARG BUILD_CACHE
@@ -7,11 +7,15 @@ RUN echo ${BUILD_CACHE} > .build_cache
 RUN mkdir -p /opt/extensions \
  && yum upgrade -y \
  && yum install -y \
+    clang \
+    clang-devel \
     file \
     gcc-c++ \
     gzip \
     jq \
     less \
+    llvm \
+    llvm-devel \
     libjpeg \
     make \
     libjpeg-turbo-devel \
@@ -68,10 +72,21 @@ RUN cd GraphicsMagick-* \
  && make install\
  && make check
 
+# Install Rust
+RUN curl -L -o rustup.sh https://sh.rustup.rs \
+ && chmod +x ./rustup.sh \
+ && ./rustup.sh -y
+
+ENV PATH=/root/.cargo/bin:${PATH}
+
 #Default ${LAMBDA_TASK_ROOT:-/var/task}
 WORKDIR ${LAMBDA_TASK_ROOT}
 
-COPY src/package.json src/package-lock.json ${LAMBDA_TASK_ROOT}
-RUN npm install
+RUN cargo init .
+COPY Cargo* /var/task
+RUN cargo build
 
-CMD [ "index.handler" ]
+#COPY src/package.json src/package-lock.json ${LAMBDA_TASK_ROOT}
+#RUN npm install
+
+#CMD [ "index.handler" ]

@@ -1,0 +1,1 @@
+aws rekognition list-faces --collection-id syndrome-photography

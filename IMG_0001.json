@@ -1,0 +1,160 @@
+{
+    "Labels": [
+        {
+            "Name": "Person",
+            "Confidence": 99.78630065917969,
+            "Instances": [
+                {
+                    "BoundingBox": {
+                        "Width": 0.570773184299469,
+                        "Height": 0.7568252086639404,
+                        "Left": 0.006288360338658094,
+                        "Top": 0.2395513653755188
+                    },
+                    "Confidence": 99.78630065917969
+                },
+                {
+                    "BoundingBox": {
+                        "Width": 0.6357027888298035,
+                        "Height": 0.9299169182777405,
+                        "Left": 0.3588823974132538,
+                        "Top": 0.05307967588305473
+                    },
+                    "Confidence": 99.5714340209961
+                }
+            ],
+            "Parents": []
+        },
+        {
+            "Name": "Human",
+            "Confidence": 99.78630065917969,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Glasses",
+            "Confidence": 95.80006408691406,
+            "Instances": [
+                {
+                    "BoundingBox": {
+                        "Width": 0.43352407217025757,
+                        "Height": 0.2201109230518341,
+                        "Left": 0.4261138439178467,
+                        "Top": 0.22028082609176636
+                    },
+                    "Confidence": 94.75757598876953
+                }
+            ],
+            "Parents": [
+                {
+                    "Name": "Accessories"
+                }
+            ]
+        },
+        {
+            "Name": "Accessories",
+            "Confidence": 95.80006408691406,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Accessory",
+            "Confidence": 95.80006408691406,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Face",
+            "Confidence": 94.53555297851562,
+            "Instances": [],
+            "Parents": [
+                {
+                    "Name": "Person"
+                }
+            ]
+        },
+        {
+            "Name": "Clothing",
+            "Confidence": 71.30294036865234,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Apparel",
+            "Confidence": 71.30294036865234,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Sleeve",
+            "Confidence": 69.24988555908203,
+            "Instances": [],
+            "Parents": [
+                {
+                    "Name": "Clothing"
+                }
+            ]
+        },
+        {
+            "Name": "Portrait",
+            "Confidence": 67.12052154541016,
+            "Instances": [],
+            "Parents": [
+                {
+                    "Name": "Face"
+                },
+                {
+                    "Name": "Photography"
+                },
+                {
+                    "Name": "Person"
+                }
+            ]
+        },
+        {
+            "Name": "Photography",
+            "Confidence": 67.12052154541016,
+            "Instances": [],
+            "Parents": [
+                {
+                    "Name": "Person"
+                }
+            ]
+        },
+        {
+            "Name": "Photo",
+            "Confidence": 67.12052154541016,
+            "Instances": [],
+            "Parents": [
+                {
+                    "Name": "Person"
+                }
+            ]
+        },
+        {
+            "Name": "Finger",
+            "Confidence": 66.1745376586914,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Hair",
+            "Confidence": 64.72854614257812,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Handrail",
+            "Confidence": 55.02375411987305,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Banister",
+            "Confidence": 55.02375411987305,
+            "Instances": [],
+            "Parents": []
+        }
+    ],
+    "LabelModelVersion": "2.0"
+}

@@ -7,3 +7,8 @@ cache/
 .idea/
 **/*.jpeg
 node_modules/
+
+
+# Added by cargo
+
+/target
